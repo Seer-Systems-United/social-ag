@@ -1,4 +1,6 @@
+mod alternate;
 mod atom;
+mod discovery;
 mod json;
 mod parse;
 mod rss;
@@ -11,6 +13,9 @@ use crate::{
     sources::{Post, User},
     transport::Transport,
 };
+
+pub(crate) use alternate::alternate_feed;
+pub(crate) use discovery::DiscoveryParser;
 
 #[derive(Clone)]
 pub(crate) struct Parser {
@@ -61,7 +66,7 @@ impl Parser {
         }
         let body = self.transport.get_text(
             self.feed_url.clone(),
-            "application/rss+xml, application/atom+xml, text/xml",
+            "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
         )?;
         self.parse_body(&body, count)
     }

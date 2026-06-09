@@ -1,4 +1,5 @@
 mod constructor;
+mod discovered;
 mod source;
 
 macro_rules! feed_source {
@@ -28,5 +29,6 @@ macro_rules! feed_source {
 }
 
 pub(crate) use constructor::feed_constructor;
+pub(crate) use discovered::profile_feed_source;
 pub(crate) use feed_source;
 pub(crate) use source::feed_social_source;

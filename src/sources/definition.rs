@@ -20,6 +20,7 @@ pub enum Capability {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SourceQuirk {
     AccountByIdRequiresStatusFallback,
+    BoardAsUser,
     MastodonApiCompatible,
     UndocumentedPublicEndpoint,
 }
