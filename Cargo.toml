@@ -3,14 +3,19 @@ name = "social-ag"
 version = "0.1.0"
 edition = "2024"
 license = "Apache-2.0"
-description = "A Rust client for Mastodon-compatible social platforms"
+description = "Protocol-oriented Rust clients for public social media data"
 repository = "https://github.com/Seer-Systems-United/social-ag"
 
 [dependencies]
+atom_syndication = "0.12.8"
+atrium-api = { version = "0.25.8", default-features = false, features = ["namespace-appbsky"] }
 chrono = "0.4.45"
 reqwest = { version = "0.13.4", features = ["blocking", "json"] }
+rss = "2.0.13"
 scraper = "0.27.0"
 serde = { version = "1.0.228", features = ["derive"] }
-
-[dev-dependencies]
 serde_json = "1.0.150"
+
+[features]
+default = []
+live-tests = []

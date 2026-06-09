@@ -1,32 +1,104 @@
 # social-ag
+Social Media Aggregator crate for Rust.
 
-A Rust client for reading public posts and account data from
-Mastodon-compatible platforms. The initial implementation supports configurable
-Mastodon instances and Truth Social.
-
-## Usage
-
-```rust,no_run
-use social_ag::{Mastodon, TruthSocial};
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mastodon = Mastodon::default();
-    let posts = mastodon.try_fetch_last_posts_by_user("Mastodon", 5)?;
-
-    let truth_social = TruthSocial::new();
-    let latest = truth_social.try_fetch_latest_post_by_user("realDonaldTrump")?;
-
-    println!("Mastodon posts: {posts:#?}");
-    println!("Latest Truth Social post: {latest:#?}");
-    Ok(())
-}
-```
-
-Use `Mastodon::new("https://example.social")` for another Mastodon instance.
-Post fetches accept either an instance-local numeric account ID or a username.
-Public accounts normally require no authentication. Authenticated lookup,
-including display-name search, can be enabled with `with_access_token`.
-
-The fallible `try_*` methods expose request and parsing errors. The
-`SocialSource` trait provides convenience methods that return `None` or an empty
-vector when a request fails.
+## Social Media Sources Supported
+- [ ] [Facebook](https://facebook.com/)
+- [ ] [YouTube](https://youtube.com/)
+- [ ] [Instagram](https://instagram.com/)
+- [ ] [WhatsApp](https://whatsapp.com/)
+- [ ] [TikTok](https://tiktok.com/)
+- [ ] [WeChat](https://wechat.com/)
+- [ ] [Messenger](https://messenger.com/)
+- [ ] [Telegram](https://telegram.org/)
+- [ ] [Snapchat](https://snapchat.com/)
+- [ ] [Douyin](https://douyin.com/)
+- [ ] [QQ](https://im.qq.com/)
+- [ ] [Qzone](https://qzone.qq.com/)
+- [ ] [Kuaishou / Kwai](https://kuaishou.com/)
+- [ ] [Sina Weibo](https://weibo.com/)
+- [x] [Reddit](https://reddit.com/)
+- [ ] [X](https://x.com/)
+- [ ] [Pinterest](https://pinterest.com/)
+- [ ] [LinkedIn](https://linkedin.com/)
+- [ ] [Threads](https://threads.net/)
+- [ ] [Discord](https://discord.com/)
+- [ ] [Quora](https://quora.com/)
+- [ ] [Bilibili](https://bilibili.com/)
+- [ ] [Xiaohongshu / REDnote](https://xiaohongshu.com/)
+- [ ] [VK](https://vk.com/)
+- [ ] [LINE](https://line.me/)
+- [ ] [Twitch](https://twitch.tv/)
+- [x] [Tumblr](https://tumblr.com/)
+- [ ] [ShareChat](https://sharechat.com/)
+- [ ] [imo](https://imo.im/)
+- [ ] [KakaoTalk](https://kakaocorp.com/page/service/service/KakaoTalk)
+- [ ] [Likee](https://likee.video/)
+- [ ] [Zhihu](https://zhihu.com/)
+- [ ] [Baidu Tieba](https://tieba.baidu.com/)
+- [ ] [OK.ru](https://ok.ru/)
+- [ ] [Zalo](https://zalo.me/)
+- [ ] [BeReal](https://bereal.com/)
+- [x] [Bluesky](https://bsky.app/)
+- [x] [Medium](https://medium.com/)
+- [x] [Substack](https://substack.com/)
+- [x] [Mastodon](https://joinmastodon.org/)
+- [ ] [SoundCloud](https://soundcloud.com/)
+- [ ] [Patreon](https://patreon.com/)
+- [x] [DeviantArt](https://deviantart.com/)
+- [ ] [Flickr](https://flickr.com/)
+- [ ] [Imgur](https://imgur.com/)
+- [x] [Vimeo](https://vimeo.com/)
+- [ ] [Dailymotion](https://dailymotion.com/)
+- [ ] [Rumble](https://rumble.com/)
+- [ ] [Kick](https://kick.com/)
+- [x] [Truth Social](https://truthsocial.com/)
+- [ ] [Nextdoor](https://nextdoor.com/)
+- [ ] [MeWe](https://mewe.com/)
+- [ ] [Viber](https://viber.com/)
+- [ ] [Naver Cafe](https://section.cafe.naver.com/)
+- [ ] [Daum Cafe](https://top.cafe.daum.net/)
+- [ ] [Douban](https://douban.com/)
+- [ ] [Mixi](https://mixi.jp/)
+- [ ] [Niconico](https://nicovideo.jp/)
+- [ ] [Rutube](https://rutube.ru/)
+- [x] [Odysee](https://odysee.com/)
+- [x] [BitChute](https://bitchute.com/)
+- [ ] [Trovo](https://trovo.live/)
+- [ ] [Steam Community](https://steamcommunity.com/)
+- [ ] [Roblox](https://roblox.com/)
+- [ ] [Goodreads](https://goodreads.com/)
+- [x] [Letterboxd](https://letterboxd.com/)
+- [ ] [MyAnimeList](https://myanimelist.net/)
+- [ ] [Last.fm](https://last.fm/)
+- [ ] [Bandcamp](https://bandcamp.com/)
+- [x] [Mixcloud](https://mixcloud.com/)
+- [ ] [Wattpad](https://wattpad.com/)
+- [ ] [FanFiction.net](https://fanfiction.net/)
+- [x] [Archive of Our Own](https://archiveofourown.org/)
+- [ ] [Stack Overflow](https://stackoverflow.com/)
+- [ ] [ResearchGate](https://researchgate.net/)
+- [ ] [Academia.edu](https://academia.edu/)
+- [ ] [Product Hunt](https://producthunt.com/)
+- [x] [Hacker News](https://news.ycombinator.com/)
+- [x] [DEV Community](https://dev.to/)
+- [x] [Hashnode](https://hashnode.com/)
+- [x] [Micro.blog](https://micro.blog/)
+- [x] [Lemmy](https://join-lemmy.org/)
+- [x] [PeerTube](https://joinpeertube.org/)
+- [x] [Pixelfed](https://pixelfed.org/)
+- [x] [Pleroma](https://pleroma.social/)
+- [x] [Misskey](https://misskey-hub.net/)
+- [x] [Friendica](https://friendi.ca/)
+- [x] [Akkoma](https://akkoma.social/)
+- [x] [GoToSocial](https://gotosocial.org/)
+- [x] [BookWyrm](https://joinbookwyrm.com/)
+- [x] [Mobilizon](https://joinmobilizon.org/)
+- [x] [WriteFreely](https://writefreely.org/)
+- [x] [Funkwhale](https://funkwhale.audio/)
+- [x] [Owncast](https://owncast.online/)
+- [ ] [Nostr](https://nostr.com/)
+- [ ] [Farcaster](https://farcaster.xyz/)
+- [ ] [Lens](https://lens.xyz/)
+- [ ] [Matrix](https://matrix.org/)
+- [ ] [4chan](https://4chan.org/)
+- [ ] [9GAG](https://9gag.com/)
