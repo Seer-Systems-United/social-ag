@@ -1,6 +1,6 @@
 use social_ag::{
-    Dailymotion, Douban, Flickr, Goodreads, MyAnimeList, Niconico, Pinterest, SocialSource,
-    SoundCloud, StackOverflow, YouTube,
+    Dailymotion, Douban, Flickr, Goodreads, MyAnimeList, Niconico, Pinterest, ProductHunt,
+    SocialSource, SoundCloud, StackOverflow, SteamCommunity, YouTube,
 };
 
 fn assert_public_source(source: &impl SocialSource, identifier: &str, post_host: &str) {
@@ -69,4 +69,14 @@ fn public_fixed_feeds_work() {
         "https://www.nicovideo.jp/",
     );
     assert_public_source(&Douban::new("ahbei").unwrap(), "ahbei", "https://");
+    assert_public_source(
+        &SteamCommunity::new("GrabFreeGames").unwrap(),
+        "GrabFreeGames",
+        "https://steamcommunity.com/",
+    );
+    assert_public_source(
+        &ProductHunt::new().unwrap(),
+        "producthunt",
+        "https://www.producthunt.com/",
+    );
 }

@@ -1,4 +1,4 @@
-use social_ag::{Bandcamp, FourChan, Rutube, SocialSource, Telegram};
+use social_ag::{Bandcamp, Farcaster, FourChan, Lens, Roblox, Rutube, SocialSource, Telegram};
 
 #[test]
 fn telegram_public_channels_work() {
@@ -55,4 +55,43 @@ fn bandcamp_public_catalogs_work() {
 
     assert!(post.url.starts_with("https://"));
     assert!(!post.id.is_empty());
+}
+
+#[test]
+fn roblox_public_games_work() {
+    let source = Roblox::new("1").unwrap();
+    let user = source.try_lookup_user_by_id("1").unwrap().unwrap();
+    let post = source
+        .try_fetch_latest_post_by_user(&user.id)
+        .unwrap()
+        .unwrap();
+
+    assert_eq!(user.username, "Roblox");
+    assert!(post.url.starts_with("https://www.roblox.com/games/"));
+}
+
+#[test]
+fn farcaster_public_hub_works() {
+    let source = Farcaster::new("2").unwrap();
+    let user = source.try_lookup_user_by_id("2").unwrap().unwrap();
+    let post = source
+        .try_fetch_latest_post_by_user(&user.id)
+        .unwrap()
+        .unwrap();
+
+    assert_eq!(user.username, "v");
+    assert!(post.url.starts_with("https://farcaster.xyz/v/"));
+}
+
+#[test]
+fn lens_public_graphql_works() {
+    let source = Lens::new("lens").unwrap();
+    let user = source.try_lookup_user_by_username("lens").unwrap().unwrap();
+    let post = source
+        .try_fetch_latest_post_by_user(&user.id)
+        .unwrap()
+        .unwrap();
+
+    assert!(user.profile_url.starts_with("https://hey.xyz/u/"));
+    assert!(post.url.starts_with("https://hey.xyz/posts/"));
 }

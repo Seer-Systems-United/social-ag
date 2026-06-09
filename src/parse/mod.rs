@@ -16,5 +16,6 @@ pub enum ParseType {
     Mastodon,
     PublicHtml,
     PublicJson,
+    GraphQl,
     Twitter,
 }

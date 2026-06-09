@@ -21,6 +21,8 @@ pub enum Capability {
 pub enum SourceQuirk {
     AccountByIdRequiresStatusFallback,
     BoardAsUser,
+    CommunityAsUser,
+    GamesAsPosts,
     MastodonApiCompatible,
     UndocumentedPublicEndpoint,
 }

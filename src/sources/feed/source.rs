@@ -1,5 +1,8 @@
 macro_rules! feed_social_source {
     ($name:ident, $auth:expr, $caps:expr) => {
+        $crate::sources::feed::feed_social_source!($name, $auth, $caps, &[]);
+    };
+    ($name:ident, $auth:expr, $caps:expr, $quirks:expr) => {
         impl $crate::SocialSource for $name {
             fn definition(&self) -> $crate::SourceDefinition {
                 $crate::SourceDefinition {
@@ -8,7 +11,7 @@ macro_rules! feed_social_source {
                     protocol: $crate::ParseType::Feed,
                     authentication: $auth,
                     capabilities: $caps,
-                    quirks: &[],
+                    quirks: $quirks,
                 }
             }
 

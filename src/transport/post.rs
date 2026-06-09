@@ -1,36 +1,47 @@
-use std::{thread, time::Duration};
+use std::thread;
 
 use reqwest::{
     Url,
-    blocking::RequestBuilder,
-    header::{ACCEPT, AUTHORIZATION, IF_MODIFIED_SINCE, IF_NONE_MATCH},
+    header::{ACCEPT, AUTHORIZATION},
 };
+use serde::{Serialize, de::DeserializeOwned};
 
 use crate::SourceError;
 
 use super::Transport;
 
 impl Transport {
-    pub(super) fn get_bytes(&self, url: Url, accept: &str) -> Result<Vec<u8>, SourceError> {
+    pub(crate) fn post_json<T, B>(&self, url: Url, body: &B) -> Result<T, SourceError>
+    where
+        T: DeserializeOwned,
+        B: Serialize,
+    {
+        let serialized = serde_json::to_vec(body)?;
         let host = url
             .host_str()
             .ok_or_else(|| SourceError::InvalidUrl(url.to_string()))?
             .to_string();
-        let key = format!("{accept} {url}");
+        let key = format!("POST {url} {}", String::from_utf8_lossy(&serialized));
         self.ensure_circuit_closed(&host)?;
         if let Some(body) = self.fresh_cached_body(&key) {
-            return Ok(body);
+            return serde_json::from_slice(&body).map_err(SourceError::from);
         }
-
         let mut attempt = 0;
         loop {
-            let request = self.request(&url, accept, &key);
+            let mut request = self
+                .client
+                .post(url.clone())
+                .header(ACCEPT, "application/json")
+                .json(body);
+            if let Some(token) = &self.bearer_token {
+                request = request.header(AUTHORIZATION, format!("Bearer {token}"));
+            }
             let permit = self.acquire_host(&host);
             let result = request.send();
             drop(permit);
             match result {
                 Ok(response) => match self.handle_response(response, &host, &key) {
-                    Ok(body) => return Ok(body),
+                    Ok(bytes) => return serde_json::from_slice(&bytes).map_err(SourceError::from),
                     Err(SourceError::RateLimited { retry_after })
                         if attempt < self.config.max_retries =>
                     {
@@ -54,27 +65,5 @@ impl Transport {
                 }
             }
         }
-    }
-
-    fn request(&self, url: &Url, accept: &str, key: &str) -> RequestBuilder {
-        let mut request = self.client.get(url.clone()).header(ACCEPT, accept);
-        if let Some(token) = &self.bearer_token {
-            request = request.header(AUTHORIZATION, format!("Bearer {token}"));
-        }
-        if let Some(cached) = self.state.0.lock().unwrap().cache.get(key) {
-            if let Some(etag) = &cached.etag {
-                request = request.header(IF_NONE_MATCH, etag.clone());
-            }
-            if let Some(modified) = &cached.last_modified {
-                request = request.header(IF_MODIFIED_SINCE, modified.clone());
-            }
-        }
-        request
-    }
-
-    pub(super) fn retry_delay(&self, attempt: usize, retry_after: Option<Duration>) -> Duration {
-        retry_after
-            .unwrap_or_else(|| Duration::from_millis(250 * 2_u64.pow(attempt as u32 - 1)))
-            .min(self.config.max_retry_delay)
     }
 }
