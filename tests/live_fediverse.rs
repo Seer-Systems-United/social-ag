@@ -1,5 +1,3 @@
-#![cfg(feature = "live-tests")]
-
 use social_ag::{BookWyrm, MicroBlog, Misskey, SocialSource};
 
 fn assert_public_source(

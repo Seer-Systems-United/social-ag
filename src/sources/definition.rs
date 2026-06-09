@@ -21,6 +21,7 @@ pub enum Capability {
 pub enum SourceQuirk {
     AccountByIdRequiresStatusFallback,
     MastodonApiCompatible,
+    UndocumentedPublicEndpoint,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

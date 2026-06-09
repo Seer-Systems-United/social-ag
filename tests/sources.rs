@@ -1,5 +1,3 @@
-#![cfg(feature = "live-tests")]
-
 use social_ag::{Bluesky, Mastodon, ParseType, SocialSource, TruthSocial};
 
 fn assert_public_source(

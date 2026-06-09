@@ -2,7 +2,6 @@ pub mod activitypub;
 pub mod atproto;
 pub(crate) mod common;
 pub mod feed;
-pub(crate) mod hacker_news;
 pub mod lemmy;
 pub mod mastodon;
 
@@ -10,7 +9,9 @@ pub mod mastodon;
 pub enum ParseType {
     ActivityPub,
     AtProto,
+    Facebook,
     Feed,
     Lemmy,
     Mastodon,
+    Twitter,
 }

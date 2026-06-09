@@ -2,7 +2,7 @@
 Social Media Aggregator crate for Rust.
 
 ## Social Media Sources Supported
-- [ ] [Facebook](https://facebook.com/)
+- [x] [Facebook](https://facebook.com/) *(requires OAuth/app authentication)*
 - [ ] [YouTube](https://youtube.com/)
 - [ ] [Instagram](https://instagram.com/)
 - [ ] [WhatsApp](https://whatsapp.com/)
@@ -17,7 +17,7 @@ Social Media Aggregator crate for Rust.
 - [ ] [Kuaishou / Kwai](https://kuaishou.com/)
 - [ ] [Sina Weibo](https://weibo.com/)
 - [x] [Reddit](https://reddit.com/)
-- [ ] [X](https://x.com/)
+- [x] [X](https://x.com/)
 - [ ] [Pinterest](https://pinterest.com/)
 - [ ] [LinkedIn](https://linkedin.com/)
 - [ ] [Threads](https://threads.net/)

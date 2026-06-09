@@ -20,6 +20,7 @@ impl Response {
         }
     }
 
+    #[allow(dead_code)]
     pub fn error(status: u16, body: impl Into<String>) -> Self {
         Self {
             status,
